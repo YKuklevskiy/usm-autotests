@@ -51,7 +51,7 @@ namespace atFrameWork2.BaseFramework
                 if (EnvType == TestCaseEnvType.Web)
                 {
                     var portalLoginPage = new PortalLoginPage(testPortal);
-                    var homePage = portalLoginPage.Login(testPortal.PortalAdmin);
+                    var homePage = portalLoginPage.LoginEnterprise(testPortal.PortalAdmin);
                     Body.Invoke(homePage);
                 }
                 else
