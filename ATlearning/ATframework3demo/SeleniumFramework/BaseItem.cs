@@ -16,7 +16,7 @@ namespace atFrameWork2.SeleniumFramework
                 if (_defaultDriver == default)
                 {
                     _defaultDriver = TestCase.RunningTestCase.EnvType == TestCaseEnvType.Web
-                        ? WebDriverActions.GetNewDriver()
+                        ? WebDriverActions.GetNewDriver(allowInsecureConnections: true)
                         : MobileDriverActions.GetNewMobileDriver();
                 }
 

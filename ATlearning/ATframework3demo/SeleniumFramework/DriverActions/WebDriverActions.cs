@@ -11,10 +11,16 @@ namespace atFrameWork2.SeleniumFramework
         /// Создаёт настроенный объект вебдрайвера
         /// </summary>
         /// <returns></returns>
-        public static IWebDriver GetNewDriver()
+        public static IWebDriver GetNewDriver(bool allowInsecureConnections = false)
         {
             IWebDriver driver;
-            driver = new ChromeDriver();
+
+            var insecureOptions = new ChromeOptions();
+            insecureOptions.AddArguments("--ignore-ssl-errors=yes", "--ignore-certificate-errors");
+            driver = allowInsecureConnections 
+                ? new ChromeDriver(insecureOptions) 
+                : new ChromeDriver();
+            
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             return driver;
