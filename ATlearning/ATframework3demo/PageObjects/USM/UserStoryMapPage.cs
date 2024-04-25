@@ -24,7 +24,6 @@ namespace ATframework3demo.PageObjects.USM
         {
             WebItem createdOptionByTest = GetOptionByTitle(testTitle);
             createdOptionByTest.Click();
-            Waiters.StaticWait_s(5);
             return new SliderOptionViewPage();
         }
         public UserStoryMapPage CreateOption(Bitrix24Option testTitle)
