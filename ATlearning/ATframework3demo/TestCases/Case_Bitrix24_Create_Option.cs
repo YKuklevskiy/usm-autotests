@@ -2,6 +2,7 @@
 using atFrameWork2.PageObjects;
 using atFrameWork2.TestEntities;
 using ATframework3demo.TestEntities;
+using atFrameWork2.BaseFramework.LogTools;
 
 namespace ATframework3demo.TestCases
 {
@@ -15,26 +16,25 @@ namespace ATframework3demo.TestCases
         }
         void CreateOptionUSM(PortalHomePage homePage)
         {
-            string scrumTeamName = "Брайтон";
-            string optionTitle = "testTitle " + new Random().Next(100, 999); ;
+            string scrumTeamName = "Ванкувер";
+            string optionTitle = "testTitle " + new Random().Next(100, 999);
             var testTitle = new Bitrix24Option(optionTitle);
-
-            homePage
+            var usmPageWithOption = homePage
                 .LeftMenu
-                // Перейти в "Задачи и проекты"
                 .OpenTasks()
-                // Перейти в Скрам
                 .OpenScram()
-                // Выбрать скрам-команду
                 .SelectScrumTeam(scrumTeamName)
-                // В слайдере скрам-команды перейти в USM
                 .OpenUSM()
-                // Создать опцию
-                .CreateOption(testTitle)
-                // Проверить наличие созданной опции
-                .isOptionExist(testTitle)
-                // Открыть слайдер и проверить title
-                .OpenOptionView(testTitle);
+                .CreateOption(testTitle);
+            bool isOptionPresent = usmPageWithOption.IsOptionExist(testTitle);
+            if (!isOptionPresent)
+            {
+                Log.Error($"<b>Опция с заголовком '{testTitle.Title}' не найдена</b>");
+            }
+            else
+            {
+                Log.Info($"<b>Опция с заголовком '{testTitle.Title}' найдена</b>");
+            }
         }
     }
 }

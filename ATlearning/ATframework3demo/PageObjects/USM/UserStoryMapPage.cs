@@ -2,7 +2,6 @@
 using atFrameWork2.SeleniumFramework;
 using ATframework3demo.TestEntities;
 using OpenQA.Selenium;
-using atFrameWork2.BaseFramework.LogTools;
 using System.ComponentModel;
 
 namespace ATframework3demo.PageObjects.USM
@@ -33,21 +32,12 @@ namespace ATframework3demo.PageObjects.USM
             WebDriverActions.Refresh();
             return this;
         }
-        public UserStoryMapPage isOptionExist(Bitrix24Option testTitle)
+        public bool IsOptionExist(Bitrix24Option testTitle)
         {
             WebItem ActorOnUSMPage = new WebItem("//div[@class='card-column-header actor']h", "Актер в USM");
-            ActorOnUSMPage.WaitElementDisplayed(); 
+            ActorOnUSMPage.WaitElementDisplayed();
             WebItem createdOptionByTest = GetOptionByTitle(testTitle);
-            bool isDisplayedCreatedOption = createdOptionByTest.WaitElementDisplayed();
-            if (isDisplayedCreatedOption)
-            {
-                Log.Info($"<b>Опция с заголовком '{testTitle.Title}' найдена</b>");
-            }
-            else
-            {
-                Log.Error($"<b>Опция с заголовком '{testTitle.Title}' не найдена</b>");
-            }
-            return this;
+            return createdOptionByTest.WaitElementDisplayed();
         }
     }
 }
