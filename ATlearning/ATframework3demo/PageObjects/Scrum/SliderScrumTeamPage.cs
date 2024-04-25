@@ -9,7 +9,7 @@ namespace ATframework3demo.PageObjects.Scrum
             new WebItem("//iframe[@class='side-panel-iframe']", 
                 "Фрейм слайдера");
         WebItem btnOpenUSM =>
-            new WebItem("//button[@class=' ui-btn ui-btn-light-border ui-btn-themes webform-cogwheel']",
+            new WebItem("//span[contains(text(), 'Скрам')]",
                 "Кнопка 'Перейти в USM'");
         public UserStoryMapPage OpenUSM()
         {
