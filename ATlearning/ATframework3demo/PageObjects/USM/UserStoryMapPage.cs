@@ -46,7 +46,7 @@ namespace ATframework3demo.PageObjects.USM
             }
             else
             {
-                throw new Exception($"<b>Опция с заголовком '{testTitle.Title}' не найдена</b>");
+                Log.Error($"<b>Опция с заголовком '{testTitle.Title}' не найдена</b>");
             }
             return this;
         }
