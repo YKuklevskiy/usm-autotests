@@ -8,6 +8,11 @@ namespace ATframework3demo.PageObjects.Scrum
         // Both sprint and backlog are present on task page so tasks need to be precursed with backlog div's xpath
         private string backlogPrecursor = "//div[@class='tasks-scrum__backlog']";
 
+        public ScrumTasksPage BackToTasksPage()
+        {
+            return new ScrumTasksPage();
+        }
+
         private WebItem GetTaskLinkItem(Bitrix24Task task)
         {
             return new WebItem(backlogPrecursor + $"//a[@class='tasks-scrum__item--title ' and text()='{task.Title}']", $"Задача в бэклоге с названием {task.Title}");
@@ -17,6 +22,13 @@ namespace ATframework3demo.PageObjects.Scrum
         public bool IsTaskPresent(Bitrix24Task task)
         {
             return GetTaskLinkItem(task).WaitElementDisplayed();
+        }
+
+        public TaskPage<ScrumTeamPage> OpenTask(Bitrix24Task task)
+        {
+            GetTaskLinkItem(task).Click();
+
+            return new TaskPage<ScrumTeamPage>();
         }
     }
 }
