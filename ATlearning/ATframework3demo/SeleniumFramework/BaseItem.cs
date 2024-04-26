@@ -51,6 +51,17 @@ namespace atFrameWork2.SeleniumFramework
             Waiters.StaticWait_s(DefaultWaitAfterActiveAction_s);
         }
 
+        public void Clear(IWebDriver driver = default)
+        {
+            WaitElementDisplayed(driver: driver);
+
+            Execute((targetElement, drv) => { targetElement.Clear(); }, driver);
+            PrintActionInfo($"Содержание очищено. Элемент");
+
+            Waiters.StaticWait_s(DefaultWaitAfterActiveAction_s);
+        }
+
+
         /// <summary>
         /// Ждёт пока элемент отобразится на странице
         /// </summary>
