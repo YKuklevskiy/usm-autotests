@@ -88,7 +88,7 @@ namespace ATframework3demo.TestCases.Scrum
                 .Delete();
             
             var USM = backlog
-                .BackToTasksPage() // there's a bug with frames, all bitrix frames are subjects of main frame, so go to parent frame doesnt work, alas - cant put backlog as generic type in TaskPage 
+                .BackToTasksPage()
                 .OpenUSM();
 
             if (USM.IsOptionPresent(testOption2))
@@ -99,13 +99,10 @@ namespace ATframework3demo.TestCases.Scrum
 
         private void Case_OptionLinkageToBacklogOnEditing(PortalHomePage homePage)
         {
-            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}");
+            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}", homePage.GetCurrentUser());
             Bitrix24UsmOption testOption = new Bitrix24UsmOption($"option{DateTime.Now.Ticks}");
 
-            homePage
-                .LeftMenu.OpenTasks()
-                .OpenScrum()
-                .CreateScrumTeam(scrumTeam)
+            QuickCreateScrumTeam(homePage, scrumTeam)
                 .OpenTasks()
                 .OpenUSM()
                 .CreateOption(testOption);
