@@ -57,14 +57,11 @@ namespace ATframework3demo.TestCases.Scrum
 
         private void Case_OptionLinkageToBacklogOnDeletion(PortalHomePage homePage)
         {
-            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}");            
+            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}", homePage.GetCurrentUser());            
             Bitrix24UsmOption testOption = new Bitrix24UsmOption($"option_for_del{DateTime.Now.Ticks}");
             Bitrix24UsmOption testOption2 = new Bitrix24UsmOption($"option_for_remote_del{DateTime.Now.Ticks}");
 
-            homePage
-                .LeftMenu.OpenTasks()
-                .OpenScrum()
-                .CreateScrumTeam(scrumTeam)
+            QuickCreateScrumTeam(homePage, scrumTeam)
                 .OpenTasks()
                 .OpenUSM()
                 .CreateOption(testOption)
