@@ -3,6 +3,7 @@ using atFrameWork2.BaseFramework.LogTools;
 using atFrameWork2.PageObjects;
 using atFrameWork2.SeleniumFramework;
 using atFrameWork2.TestEntities;
+using ATframework3demo.PageObjects.Scrum;
 using ATframework3demo.TestEntities;
 
 namespace ATframework3demo.TestCases.Scrum
@@ -17,15 +18,24 @@ namespace ATframework3demo.TestCases.Scrum
             };
         }
 
-        private void Case_OptionLinkageToBacklogOnCreation(PortalHomePage homePage)
+        private ScrumTeamPage QuickCreateScrumTeam(PortalHomePage homePage, Bitrix24ScrumTeam team)
         {
-            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}");            
-            Bitrix24UsmOption testOption = new Bitrix24UsmOption($"option{DateTime.Now.Ticks}");
-
-            homePage
+            return homePage
                 .LeftMenu.OpenTasks()
                 .OpenScrum()
-                .CreateScrumTeam(scrumTeam)
+                .CreateScrumTeam(team)
+                .EnterTeamName()
+                .SelectTeamType()
+                .SelectScrumMasterFromTeamEntity()
+                .FinishCreation();
+        }
+
+        private void Case_OptionLinkageToBacklogOnCreation(PortalHomePage homePage)
+        {
+            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}", homePage.GetCurrentUser());            
+            Bitrix24UsmOption testOption = new Bitrix24UsmOption($"option{DateTime.Now.Ticks}");
+
+            QuickCreateScrumTeam(homePage, scrumTeam)
                 .OpenTasks()
                 .OpenUSM()
                 .CreateOption(testOption);

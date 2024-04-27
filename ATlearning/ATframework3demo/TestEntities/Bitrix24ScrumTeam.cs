@@ -2,13 +2,17 @@
 {
     public class Bitrix24ScrumTeam
     {
-        public Bitrix24ScrumTeam(string name)
+        public Bitrix24ScrumTeam(string name, Bitrix24User scrumMaster = default)
         {
-            Name = name;
+            Title = name ?? throw new ArgumentNullException(nameof(name)) ;
+            ScrumMaster = scrumMaster;
         }
 
-        public string Name { get; private set; }
+        public string Title { get; private set; }
+
         public ScrumTeamType TeamType { get; set; }
+
+        public Bitrix24User ScrumMaster { get; set; }
         //public List<Bitrix24User> Developers { get; set; }
         //public List<Bitrix24User> Stakeholders { get; set; }
 
