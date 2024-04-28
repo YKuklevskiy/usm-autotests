@@ -16,6 +16,7 @@ namespace ATframework3demo.TestCases.Scrum
             {
                 new TestCase("Автоматическое создание связанной с опцией USM задачи в бэклоге Скрама", homePage => Case_OptionLinkageToBacklogOnCreation(homePage)),
                 new TestCase("Автоматическое удаление связанных опций USM и бэклога", homePage => Case_OptionLinkageToBacklogOnDeletion(homePage)),
+                new TestCase("Автоматическое изменение названия опции и связанной задачи бэклога при редактировании", homePage => Case_OptionLinkageToBacklogOnEditing(homePage)),
             };
         }
 
@@ -87,12 +88,51 @@ namespace ATframework3demo.TestCases.Scrum
                 .Delete();
             
             var USM = backlog
-                .BackToTasksPage() // there's a bug with frames, all bitrix frames are subjects of main frame, so go to parent frame doesnt work, alas - cant put backlog as generic type in TaskPage 
+                .BackToTasksPage()
                 .OpenUSM();
 
             if (USM.IsOptionPresent(testOption2))
             {
                 Log.Error($"Связанная с удалённой задачей бэклога {testOption2.Title} опция в бэклоге не удалилась");
+            }
+        }
+
+        private void Case_OptionLinkageToBacklogOnEditing(PortalHomePage homePage)
+        {
+            Bitrix24ScrumTeam scrumTeam = new Bitrix24ScrumTeam($"team{DateTime.Now.Ticks}", homePage.GetCurrentUser());
+            Bitrix24UsmOption testOption = new Bitrix24UsmOption($"option{DateTime.Now.Ticks}");
+
+            QuickCreateScrumTeam(homePage, scrumTeam)
+                .OpenTasks()
+                .OpenUSM()
+                .CreateOption(testOption);
+
+            string newTaskName = $"newTaskName{DateTime.Now.Ticks}";
+            Bitrix24UsmOption editedOption = new Bitrix24UsmOption(newTaskName);
+
+            var USM = homePage
+                .LeftMenu.OpenTasks()
+                .OpenScrum()
+                .SortByActivityDate(ascending: true)
+                .SelectScrumTeam(scrumTeam)
+                .OpenTasks()
+                .Backlog
+                .OpenTask(testOption.LinkedTask)
+                .Edit()
+                .ChangeTaskName(newTaskName)
+                .Apply()
+                .Close()
+                .OpenTasks()
+                .OpenUSM();
+
+            if(USM.IsOptionPresent(testOption))
+            {
+                Log.Error($"После редактирования в бэклоге, в USM всё еще присутствует старая опция {testOption.Title}");
+            }
+
+            if(!USM.IsOptionPresent(editedOption))
+            {
+                Log.Error($"После редактирования в бэклоге, в USM отсутствует изменённая опция {editedOption.Title}");
             }
         }
     }
