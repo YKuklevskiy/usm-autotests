@@ -122,7 +122,6 @@ namespace ATframework3demo.TestCases.Scrum
                 .ChangeTaskName(newTaskName)
                 .Apply()
                 .Close()
-                //.BackToTasksPage()
                 .OpenTasks()
                 .OpenUSM();
 
