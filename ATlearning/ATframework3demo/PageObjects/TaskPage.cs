@@ -25,8 +25,6 @@ namespace ATframework3demo.PageObjects
             
             WebDriverActions.SwitchToDefaultContent();
 
-            //new WebItem("//div[@class='ui-notification-balloon-content']", "Попап при удалении задачи").WaitWhileElementDisplayed(maxWait_s: 40);
-            // Either a popup or closing frame are blocking the OpenUSM button, no dynamic waiters can handle that event
             Waiters.StaticWait_s(3);
             return new BasePageObject();
         }
