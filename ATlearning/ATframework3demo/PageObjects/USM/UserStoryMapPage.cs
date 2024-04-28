@@ -3,6 +3,7 @@ using atFrameWork2.SeleniumFramework;
 using ATframework3demo.TestEntities;
 using OpenQA.Selenium;
 using System.ComponentModel;
+using atFrameWork2.BaseFramework.LogTools;
 
 namespace ATframework3demo.PageObjects.USM
 {
@@ -14,29 +15,34 @@ namespace ATframework3demo.PageObjects.USM
         WebItem inputNewOption =>
             new WebItem("//div[@class='dndrop-container vertical']//input[@type='text']",
                 "Созданная пустая опция");
-        private WebItem GetOptionByTitle(Bitrix24Option testTitle)
+        private WebItem GetOptionLinkByTitle(Bitrix24USMOption testTitle)
         {
             return new WebItem($"//div[@class='option']//a[contains(text(), '{testTitle.Title}')]",
-                $"Опция с заголовком '{testTitle.Title}'");
+                $"Ссылка опция с заголовком '{testTitle.Title}'");
         }
-        public SliderOptionViewPage OpenOptionView(Bitrix24Option testTitle)
+        public UserStoryMapPage RefreshPage()
         {
-            WebItem createdOptionByTest = GetOptionByTitle(testTitle);
-            createdOptionByTest.Click();
-            return new SliderOptionViewPage();
-        }
-        public UserStoryMapPage CreateOption(Bitrix24Option testTitle)
-        {
-            btnAddOption.Click();
-            inputNewOption.SendKeys(testTitle.Title + Keys.Enter);
             WebDriverActions.Refresh();
             return this;
         }
-        public bool IsOptionExist(Bitrix24Option testTitle)
+        public SliderOptionViewPage OpenOptionView(Bitrix24USMOption testTitle)
         {
-            WebItem ActorOnUSMPage = new WebItem("//div[@class='card-column-header actor']h", "Актер в USM");
+            WebItem createdOptionByTest = GetOptionLinkByTitle(testTitle);
+            createdOptionByTest.Click();
+            return new SliderOptionViewPage();
+        }
+        public UserStoryMapPage CreateOption(Bitrix24USMOption testTitle)
+        {
+            btnAddOption.Click();
+            inputNewOption.SendKeys(testTitle.Title + Keys.Enter);
+            RefreshPage();
+            return this;
+        }
+        public bool IsOptionExist(Bitrix24USMOption testTitle)
+        {
+            WebItem ActorOnUSMPage = new WebItem("//div[contains(@class, 'card-column-header actor')]", "Актер в USM");
             ActorOnUSMPage.WaitElementDisplayed();
-            WebItem createdOptionByTest = GetOptionByTitle(testTitle);
+            WebItem createdOptionByTest = GetOptionLinkByTitle(testTitle);
             return createdOptionByTest.WaitElementDisplayed();
         }
     }

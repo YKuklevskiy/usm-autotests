@@ -6,7 +6,7 @@ using atFrameWork2.BaseFramework.LogTools;
 
 namespace ATframework3demo.TestCases
 {
-    public class Case_Bitrix24_Create_Option : CaseCollectionBuilder
+    public class Case_Bitrix24_USM_Create_Option : CaseCollectionBuilder
     {
         protected override List<TestCase> GetCases()
         {
@@ -16,17 +16,20 @@ namespace ATframework3demo.TestCases
         }
         void CreateOptionUSM(PortalHomePage homePage)
         {
-            string scrumTeamName = "Ванкувер";
-            string optionTitle = "testTitle " + new Random().Next(100, 999);
-            var testTitle = new Bitrix24Option(optionTitle);
-            var usmPageWithOption = homePage
+            string scrumTeamName = "Новая скрам-команда " + DateTime.Now.Ticks;
+            string scrumMasterName = "David Zhemaitis";
+            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMasterName);
+            string optionTitle = "testTitle " + DateTime.Now.Ticks;
+            var testTitle = new Bitrix24USMOption(optionTitle);
+            var usmPageAfterCreation = homePage
                 .LeftMenu
                 .OpenTasks()
                 .OpenScram()
-                .SelectScrumTeam(scrumTeamName)
-                .OpenUSM()
-                .CreateOption(testTitle);
-            bool isOptionPresent = usmPageWithOption.IsOptionExist(testTitle);
+                .CreateScrumTeam()
+                .FillScrumTeamForm(testScrumDetails)
+                .CreateUSM()
+                .CreateOption(testTitle); 
+            bool isOptionPresent = usmPageAfterCreation.IsOptionExist(testTitle);
             if (!isOptionPresent)
             {
                 Log.Error($"<b>Опция с заголовком '{testTitle.Title}' не найдена</b>");

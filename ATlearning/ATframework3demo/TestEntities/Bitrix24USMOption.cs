@@ -1,8 +1,8 @@
 ﻿namespace ATframework3demo.TestEntities
 {
-    public class Bitrix24Option
+    public class Bitrix24USMOption
     {
-        public Bitrix24Option(string title)
+        public Bitrix24USMOption(string title)
         {
             Title = title ?? throw new ArgumentNullException(nameof(title));
         }

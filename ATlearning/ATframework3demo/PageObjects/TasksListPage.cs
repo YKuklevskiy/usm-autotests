@@ -1,6 +1,6 @@
 ﻿
 using atFrameWork2.SeleniumFramework;
-using ATframework3demo.PageObjects;
+using ATframework3demo.PageObjects.Scrum;
 
 namespace atFrameWork2.PageObjects
 {
