@@ -7,7 +7,7 @@ namespace ATframework3demo.PageObjects.Scrum
 {
     public class ScrumTeamsListPage
     {
-        WebItem activityDateSortingButton => new WebItem("//th[@data-sort-by='ACTIVITY_DATE']", "Пункт 'Активность' меню сортировки списка команд");
+        WebItem activityDateSortingButton => new WebItem("//th[@data-sort-by='ACTIVITY_DATE']", "Заголовок столбца 'Активность' в таблице списка скрам команд");
         WebItem scrumTeamCreateButton => new WebItem("//a[@id='projectAddButton']", "Кнопка 'Создать' для создания скрам-команды");
 
         public ScrumCreateTeamPage CreateScrumTeam(Bitrix24ScrumTeam team)
