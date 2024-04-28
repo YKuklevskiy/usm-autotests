@@ -23,6 +23,18 @@ namespace ATframework3demo.PageObjects.Scrum
             return this;
         }
 
+        private WebItem GetOptionCardLabel(Bitrix24UsmOption option)
+        {
+            return new WebItem($"//div[@class='option']//a[text()='{option.Title}']", $"Название на карточке опции '{option.Title}'");
+        }
+
+        public TaskPage<UsmPage> OpenOptionDetails(Bitrix24UsmOption option)
+        {
+            GetOptionCardLabel(option).Click();
+
+            return new TaskPage<UsmPage>();
+        }
+
         public UsmPage CreateOption(Bitrix24UsmOption testTitle)
         {
             new WebItem("//div[@class='add-new-option']", "Кнопка добавления опции на USM")
@@ -33,6 +45,11 @@ namespace ATframework3demo.PageObjects.Scrum
             optionNameField.SendKeys(Keys.Enter);
 
             return this;
+        }
+
+        public bool IsOptionPresent(Bitrix24UsmOption option)
+        {
+            return GetOptionCardLabel(option).WaitElementDisplayed();
         }
     }
 }
