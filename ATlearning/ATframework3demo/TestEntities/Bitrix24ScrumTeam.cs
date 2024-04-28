@@ -13,8 +13,6 @@
         public ScrumTeamConfidentialityLevel ConfidentialityLevel { get; set; }
 
         public Bitrix24User ScrumMaster { get; set; }
-        //public List<Bitrix24User> Developers { get; set; }
-        //public List<Bitrix24User> Stakeholders { get; set; }
 
         public string GetConfidentialityLevelToString()
         {
