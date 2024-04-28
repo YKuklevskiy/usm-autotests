@@ -10,21 +10,21 @@
 
         public string Title { get; private set; }
 
-        public ScrumTeamType TeamType { get; set; }
+        public ScrumTeamConfidentialityLevel ConfidentialityLevel { get; set; }
 
         public Bitrix24User ScrumMaster { get; set; }
         //public List<Bitrix24User> Developers { get; set; }
         //public List<Bitrix24User> Stakeholders { get; set; }
 
-        public string GetTeamTypeToString()
+        public string GetConfidentialityLevelToString()
         {
-            switch (TeamType)
+            switch (ConfidentialityLevel)
             {
-                case ScrumTeamType.Open:
+                case ScrumTeamConfidentialityLevel.Open:
                     return "Открытый";
-                case ScrumTeamType.Closed:
+                case ScrumTeamConfidentialityLevel.Closed:
                     return "Закрытый";
-                case ScrumTeamType.Secret:
+                case ScrumTeamConfidentialityLevel.Secret:
                     return "Секретный";
                 default:
                     throw new NotImplementedException();
@@ -32,7 +32,7 @@
         }
     }
 
-    public enum ScrumTeamType
+    public enum ScrumTeamConfidentialityLevel
     {
         Open,
         Closed,

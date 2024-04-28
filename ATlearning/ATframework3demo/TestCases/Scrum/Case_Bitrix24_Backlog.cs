@@ -25,7 +25,7 @@ namespace ATframework3demo.TestCases.Scrum
                 .OpenScrum()
                 .CreateScrumTeam(team)
                 .EnterTeamName()
-                .SelectTeamType()
+                .SelectTeamConfidentiality()
                 .SelectScrumMasterFromTeamEntity()
                 .FinishCreation();
         }

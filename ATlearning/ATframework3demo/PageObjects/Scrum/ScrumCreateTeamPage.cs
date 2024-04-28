@@ -22,11 +22,11 @@ namespace ATframework3demo.PageObjects.Scrum
             return this;
         }
 
-        public ScrumCreateTeamPage SelectTeamType()
+        public ScrumCreateTeamPage SelectTeamConfidentiality()
         {
-            string teamType = _team.GetTeamTypeToString();
-            new WebItem($"//div[contains(@class, 'socialnetwork-group-create-ex__group-selector--title') and text()='{teamType}']" +
-                "//ancestor::div[contains(@class, 'socialnetwork-group-create-ex__group-selector') and @data-bx-confidentiality-type]", $"Кнопка '{teamType}' выбора типа команды")
+            string confidentiality = _team.GetConfidentialityLevelToString();
+            new WebItem($"//div[contains(@class, 'socialnetwork-group-create-ex__group-selector--title') and text()='{confidentiality}']" +
+                "//ancestor::div[contains(@class, 'socialnetwork-group-create-ex__group-selector') and @data-bx-confidentiality-type]", $"Кнопка '{confidentiality}' выбора уровня конфиденциальности команды")
                 .Click();
             SubmitActionButton.Click();
 
