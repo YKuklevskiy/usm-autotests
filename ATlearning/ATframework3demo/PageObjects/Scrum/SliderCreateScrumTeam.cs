@@ -25,7 +25,7 @@ namespace ATframework3demo.PageObjects.Scrum
         {
             btnСontinue.Click();
         }
-        public void SelectScrumMaster(string scrumMasterName)
+        private void SelectScrumMaster(string scrumMasterName)
         {
             selectScramMaster.Click();
             WebItem scrumMasterItem = new WebItem($"//div[contains(@class, 'ui-selector-item-title') and contains(text(), '{scrumMasterName}')]", "Выбор конкретного Скрам-мастера");
@@ -41,13 +41,19 @@ namespace ATframework3demo.PageObjects.Scrum
         public SliderScrumTeamPage FillScrumTeamForm(Bitrix24ScrumTeamDetail scrumTeamDetails)
         {
             frameSlider.SwitchToFrame();
-            inputNameScrumTeam.SendKeys(scrumTeamDetails.TeamName);
+            // Заполняем название скрам-команды
+            inputNameScrumTeam.SendKeys(scrumTeamDetails.ScrumTeamName);
+            // Жмем 'продолжить' для перехода в окно выбора уровеня конфиденциальности скрам-команды
             ClickContinueButton();
+            // Здесь также нажимаем 'продолжить' так как автоматически выбран тип
+            // "открытый, что соответствует нужному значению для теста
             ClickContinueButton();
-            SelectScrumMaster(scrumTeamDetails.ScrumMasterName);
+            // Выбираем скрам-мастера из списка пользователей
+            SelectScrumMaster(scrumTeamDetails.ScrumMaster.UserName);
+            // Нажимаем далее и создается скрам-коаманда
             ClickContinueButton();
-            WebItem confirmationElement = new WebItem($"//span[contains(@class, 'profile-menu-name') and contains(text(), '{scrumTeamDetails.TeamName}')]", "Имя созданной скрам-команду");
-            Waiters.WaitForCondition(() => confirmationElement.WaitElementDisplayed(), 1, 12, $"Ожидание создания скрам-команды '{scrumTeamDetails.TeamName}'");
+            WebItem confirmationElement = new WebItem($"//span[contains(@class, 'profile-menu-name') and contains(text(), '{scrumTeamDetails.ScrumTeamName}')]", "Имя созданной скрам-команду");
+            Waiters.WaitForCondition(() => confirmationElement.WaitElementDisplayed(), 2, 10, $"Ожидание создания скрам-команды '{scrumTeamDetails.ScrumTeamName}'");
             WebDriverActions.Refresh();
             return new SliderScrumTeamPage();
         }
