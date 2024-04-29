@@ -17,8 +17,8 @@ namespace ATframework3demo.TestCases
         void DeleteOptionUSM(PortalHomePage homePage)
         {
             string scrumTeamName = "Новая скрам-команда " + DateTime.Now.Ticks;
-            string scrumMasterName = "David Zhemaitis";
-            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMasterName);
+            Bitrix24User scrumMaster = homePage.GetCurrentUserName();
+            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMaster);
             string optionTitle = "testTitle " + DateTime.Now.Ticks;
             var optionToDelete = new Bitrix24USMOption(optionTitle);
             var usmPageAfterCreation = homePage
@@ -28,18 +28,7 @@ namespace ATframework3demo.TestCases
                 .CreateScrumTeam()
                 .FillScrumTeamForm(testScrumDetails)
                 .CreateUSM()
-                .CreateOption(optionToDelete);
-            bool isOptionPresentBeforeDeletion = usmPageAfterCreation.IsOptionExist(optionToDelete);
-            if (!isOptionPresentBeforeDeletion)
-            {
-                Log.Error($"<b>Опция '{optionToDelete.Title}' для удаления не найдена</b>");
-                return;
-            }
-            else
-            {
-                Log.Info($"<b>Опция с исходным заголовком '{optionToDelete.Title}' найдена</b>");
-            }
-            var usmPageWithOption = usmPageAfterCreation
+                .CreateOption(optionToDelete)        
                 .OpenOptionView(optionToDelete)
                 .OpenMoreActionsInForm()
                 .DeleteOptionInViewForm()
