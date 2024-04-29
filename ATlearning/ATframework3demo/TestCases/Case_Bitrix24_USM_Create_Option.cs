@@ -17,10 +17,10 @@ namespace ATframework3demo.TestCases
         void CreateOptionUSM(PortalHomePage homePage)
         {
             string scrumTeamName = "Новая скрам-команда " + DateTime.Now.Ticks;
-            string scrumMasterName = "David Zhemaitis";
-            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMasterName);
+            Bitrix24User scrumMaster = homePage.GetCurrentUserName();
+            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMaster);
             string optionTitle = "testTitle " + DateTime.Now.Ticks;
-            var testTitle = new Bitrix24USMOption(optionTitle);
+            var optionDetail = new Bitrix24USMOption(optionTitle);
             var usmPageAfterCreation = homePage
                 .LeftMenu
                 .OpenTasks()
@@ -28,15 +28,15 @@ namespace ATframework3demo.TestCases
                 .CreateScrumTeam()
                 .FillScrumTeamForm(testScrumDetails)
                 .CreateUSM()
-                .CreateOption(testTitle); 
-            bool isOptionPresent = usmPageAfterCreation.IsOptionExist(testTitle);
+                .CreateOption(optionDetail); 
+            bool isOptionPresent = usmPageAfterCreation.IsOptionExist(optionDetail);
             if (!isOptionPresent)
             {
-                Log.Error($"<b>Опция с заголовком '{testTitle.Title}' не найдена</b>");
+                Log.Error($"<b>Опция с заголовком '{optionDetail.Title}' не найдена</b>");
             }
             else
             {
-                Log.Info($"<b>Опция с заголовком '{testTitle.Title}' найдена</b>");
+                Log.Info($"<b>Опция с заголовком '{optionDetail.Title}' найдена</b>");
             }
         }
     }
