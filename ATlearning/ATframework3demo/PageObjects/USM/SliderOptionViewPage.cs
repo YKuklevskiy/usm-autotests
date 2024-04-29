@@ -8,11 +8,17 @@ namespace ATframework3demo.PageObjects.USM
             new WebItem("//iframe[@class='side-panel-iframe']",
                 "Фрейм формы просмотра опции");
         WebItem btnOpenOptionEditForm =>
-           new WebItem("//a[contains(@class, 'task-view-button') and contains(@class, 'edit')]",
+           new WebItem("//a[contains(text(), 'Редактировать')]",
                "Кнопка редактировать в слайдере");
         public WebItem btnCloseSlider =>
             new WebItem("//div[@title='Закрыть']",
                 "Кнопка закрытия слайдера");
+        public WebItem btnMoreActions =>
+            new WebItem("//span[@data-bx-id='task-view-b-open-menu' and normalize-space() = 'Ещё']",
+                "Кнопка еще");
+        public WebItem btnDeleteOption =>
+            new WebItem("//span[@title='Удалить' and contains(@class, 'menu-popup-item-delete')]",
+                "Кнопка удалить");
         public SliderOptionEditPage OpenOptionEditForm()
         {
             frameSlider.SwitchToFrame();
@@ -23,6 +29,18 @@ namespace ATframework3demo.PageObjects.USM
         {
             WebDriverActions.SwitchToDefaultContent();
             btnCloseSlider.Click();
+            return new UserStoryMapPage();
+        }
+        public SliderOptionViewPage OpenMoreActionsInForm()
+        {
+            frameSlider.SwitchToFrame();
+            btnMoreActions.Click();
+            return this;
+        }
+        public UserStoryMapPage DeleteOptionInViewForm()
+        {
+            btnDeleteOption.Click();
+            CloseOptionViewForm();
             return new UserStoryMapPage();
         }
     }
