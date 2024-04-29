@@ -17,12 +17,12 @@ namespace ATframework3demo.TestCases
         void EditingOptionNameUSM(PortalHomePage homePage)
         {
             string scrumTeamName = "Новая скрам-команда " + DateTime.Now.Ticks;
-            string scrumMasterName = "David Zhemaitis";
-            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMasterName);
+            Bitrix24User scrumMaster = homePage.GetCurrentUserName();
+            var testScrumDetails = new Bitrix24ScrumTeamDetail(scrumTeamName, scrumMaster);
             string optionTitle = "testTitle " + DateTime.Now.Ticks;
-            var testTitle = new Bitrix24USMOption(optionTitle);
+            var optionDetail = new Bitrix24USMOption(optionTitle);
             string newOptionTitle = "editedTitle " + DateTime.Now.Ticks;
-            var newTestTitle = new Bitrix24USMOption(newOptionTitle);
+            var newOptionDetail = new Bitrix24USMOption(newOptionTitle);
             var usmPageAfterCreation = homePage
                 .LeftMenu
                 .OpenTasks()
@@ -30,32 +30,32 @@ namespace ATframework3demo.TestCases
                 .CreateScrumTeam()
                 .FillScrumTeamForm(testScrumDetails)
                 .CreateUSM()
-                .CreateOption(testTitle);
-            bool isOptionCreated = usmPageAfterCreation.IsOptionExist(testTitle);
-            if (!isOptionCreated)
-            {
-                Log.Error($"<b>Опция с исходным заголовком '{testTitle.Title}' не найдена</b>");
-                return;
-            }
-            else
-            {
-                Log.Info($"<b>Опция с исходным заголовком '{testTitle.Title}' найдена</b>");
-            }
-            var usmPageWithOption = usmPageAfterCreation
-                .OpenOptionView(testTitle)
+                .CreateOption(optionDetail)
+                .OpenOptionView(optionDetail)
                 .OpenOptionEditForm()
-                .SetNameInEditForm(newTestTitle)
+                .SetNameInEditForm(newOptionDetail)
                 .SaveChangesInOption()
                 .CloseOptionViewForm()
-                .RefreshPage(); 
-            bool isOptionPresent = usmPageWithOption.IsOptionExist(newTestTitle);
-            if (!isOptionPresent)
+                .RefreshPage();
+            // Проверяем, что опция с новым заголовком присутствует
+            bool isNewOptionPresent = usmPageAfterCreation.IsOptionExist(newOptionDetail);
+            if (!isNewOptionPresent)
             {
-                Log.Error($"<b>Опция с новым заголовком '{newTestTitle.Title}' не найдена</b>");
+                Log.Error($"<b>Опция с новым заголовком '{newOptionDetail.Title}' не найдена</b>");
             }
             else
             {
-                Log.Info($"<b>Опция с новым заголовком '{newTestTitle.Title}' найдена</b>");
+                Log.Info($"<b>Опция с новым заголовком '{newOptionDetail.Title}' найдена</b>");
+            }
+            // Проверяем, что опция со старым заголовком отсутствует
+            bool isOldOptionPresent = usmPageAfterCreation.IsOptionExist(optionDetail);
+            if (isOldOptionPresent)
+            {
+                Log.Error($"<b>Опция со старым заголовком '{optionDetail.Title}' все еще присутствует</b>");
+            }
+            else
+            {
+                Log.Info($"<b>Опция со старым заголовком '{optionDetail.Title}' успешно отредактирована и не присутствует на USM диаграмме</b>");
             }
         }
     }
