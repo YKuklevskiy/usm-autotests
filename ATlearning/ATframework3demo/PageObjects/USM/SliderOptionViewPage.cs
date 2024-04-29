@@ -6,7 +6,7 @@ namespace ATframework3demo.PageObjects.USM
     {
         public WebItem frameSlider =>
             new WebItem("//iframe[@class='side-panel-iframe']",
-                "Фрейм слайдера");
+                "Фрейм формы просмотра опции");
         WebItem btnOpenOptionEditForm =>
            new WebItem("//a[contains(@class, 'task-view-button') and contains(@class, 'edit')]",
                "Кнопка редактировать в слайдере");
