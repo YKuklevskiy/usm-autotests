@@ -5,12 +5,12 @@ namespace ATframework3demo.TestEntities
 {
     public class Bitrix24ScrumTeamDetail
     {
-        public Bitrix24ScrumTeamDetail(string teamName, string scrumMasterName)
+        public Bitrix24ScrumTeamDetail(string scrumTeamName, Bitrix24User scrumMaster)
         {
-            TeamName = teamName ?? throw new ArgumentNullException(nameof(teamName));
-            ScrumMasterName = scrumMasterName ?? throw new ArgumentNullException(nameof(scrumMasterName));
+            ScrumTeamName = scrumTeamName ?? throw new ArgumentNullException(nameof(scrumTeamName));
+            ScrumMaster = scrumMaster ?? throw new ArgumentNullException(nameof(scrumMaster));
         }
-        public string TeamName { get; set; }
-        public string ScrumMasterName { get; set; }
+        public string ScrumTeamName { get; private set; }
+        public Bitrix24User ScrumMaster { get; private set; }
     }
 }
